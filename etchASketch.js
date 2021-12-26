@@ -22,9 +22,20 @@ function createGrid() {
     for (i=1; i<257; i++) {
         const box = document.createElement('div');
         box.classList.add('box');
-        box.style.cssText='background:black;'
+        box.style.cssText='background: white;'
         container.appendChild(box);
     }
 }
 
 createGrid();
+
+const boxes = document.querySelectorAll('.box');
+
+boxes.forEach((box) => { // hovering listeners
+    box.addEventListener('mouseover', (e) => {
+        e.target.classList.toggle('hovering');
+    });
+    box.addEventListener('mouseout', (e) => {
+        e.target.classList.toggle('hovering')
+    })
+})

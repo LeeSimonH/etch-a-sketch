@@ -1,4 +1,5 @@
 body {
+  background-color: #eee;
 }
 
 .container {
@@ -6,4 +7,9 @@ body {
   grid-template-columns: repeat(16, 50px);
   grid-template-rows: repeat(16, 50px);
   grid-gap: 1px;
+}
+
+.hovering {
+  border: 2px solid orange;
+  background: lightyellow;
 }
