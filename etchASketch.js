@@ -1,59 +1,102 @@
-const body = document.querySelector('body');
-
-const container = document.querySelector('.container')
-
-// function createGrid() {
-//     for (i=0; i<16; i++) {
-//         const row = document.createElement('div');
-//         row.classList.add('row');
-//         row.classList.add(`${i}`);
-//         row.style.cssText=''
-//         container.appendChild(row);
-//         for (j=0; j<16; j++) {
-//             const box = document.createElement('div');
-//             box.classList.add('box');
-//             box.style.cssText='height:50px; width: 50px; background-color:black;';
-//             row.appendChild(box);
-//         }
-//     }
-// }
-
-function createGrid() {
-    for (i=1; i<257; i++) {
+function addBoxes (dim) {
+    let numBoxes = dim ** 2;
+    const container = document.querySelector('.container');
+    for (i=0; i<numBoxes; i++) {
         const box = document.createElement('div');
         box.classList.add('box');
-        box.textContent = (' ')
+        box.style.backgroundColor = 'white';
         container.appendChild(box);
     }
 }
 
-createGrid();
+function createGrid(dim) {
+    const container = document.createElement('div');
+    container.classList.add('container');
+    const body = document.querySelector('body');
+    body.appendChild(container);
 
-const boxes = document.querySelectorAll('.box');
+    container.removeAttribute('grid-template-columns');
+    container.removeAttribute('grid-template-rows');
 
-boxes.forEach((box) => { // hovering listeners
-    box.addEventListener('mouseover', (e) => {
-        box.style.background='orange';
-    });
+    let boxDim = 900/dim;
+    container.style.cssText = `
+    align-self:center;
+    display:grid;
+    grid-template-columns: repeat(${ dim }, ${ boxDim }px);
+    grid-template-rows: repeat(${ dim }, ${ boxDim }px);
+    `;
 
-    // box.addEventListener('mouseout', (e) => {
-    //     e.target.classList.toggle('hovering');
-    //     box.style.background='white';
-    // })
-})
+    addBoxes(dim);
+}
 
-function clearBoxes() {
-    boxes.forEach((box) => {
-        box.style.background='white'
+function addBoxHover() {
+    const boxes = document.querySelectorAll('.box');
+    boxes.forEach((box) => { // hovering listeners
+        box.addEventListener('mouseover', (e) => {
+            box.style.background='black';
+            // box.style.border='1px solid #ddd';
+        });
     })
 }
 
-const resetButton = document.querySelector('.reset');
+function zeroGrid() {
+    const container = document.querySelector('.container');
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+    const body = document.querySelector('body');
+    body.removeChild(container);
+}
 
-resetButton.addEventListener('mouseover', (e) => {
-    resetButton.classList.toggle('hovering');
-})
-resetButton.addEventListener('mouseout', (e) => {
-    resetButton.classList.toggle('hovering');
-})
-resetButton.addEventListener('click', () => {clearBoxes()})
+function customGrid() {
+    let userDims = prompt("What dimensions you want bro? ");
+    userDims = parseInt(userDims);
+    console.log(userDims);
+    if (isNaN(userDims)) {
+        let userDims = prompt("Please enter a valid number. ");
+    } else {
+        zeroGrid();
+        createGrid(userDims);
+        addBoxHover();
+    }
+}
+
+function clearBoxes() {
+    const boxes = document.querySelectorAll('.box');
+    boxes.forEach((box) => {
+        box.style.background='white'
+    });
+}
+
+function addButtonHover() {
+    const buttons = document.querySelectorAll('button');
+    console.log(buttons);
+    buttons.forEach((button) => {
+        button.addEventListener('mouseover', (e) => {
+            e.target.classList.toggle('hovering');
+        });
+        button.addEventListener('mouseout', (e) => {
+            e.target.classList.toggle('hovering');
+        })
+    })
+}
+
+function initializeResetButton() {
+    const resetButton = document.querySelector('.reset');
+    resetButton.addEventListener('click', () => {customGrid()});
+}
+
+function initializeClearButton() {
+    const clearButton = document.querySelector('.clear');
+    clearButton.addEventListener('click', () => {clearBoxes()});
+}
+
+function initialize() {
+    createGrid(16);
+    addBoxHover();
+    initializeClearButton();
+    initializeResetButton();
+    addButtonHover();
+}
+
+window.onload = initialize();

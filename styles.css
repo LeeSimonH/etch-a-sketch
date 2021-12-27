@@ -2,33 +2,29 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 50px;
+  gap: 1em;
   background-color: #eee;
 }
 
-.reset {
+.buttons {
+  display: flex;
   align-self: center;
+  gap: 1em;
+}
+
+.reset,
+.clear {
   font-family: sans-serif;
   font-weight: bold;
-  color: #ddd;
-  font-size: 30px;
-  height: 60px;
-  width: 300px;
-  border: 5px solid #ddd;
+  color: darkgrey;
+  font-size: 24px;
+  height: 40px;
+  width: 250px;
+  border: 0;
   border-radius: 10px;
-}
-
-.container {
-  align-self: center;
-  display: grid;
-  grid-template-columns: repeat(16, 50px);
-  grid-template-rows: repeat(16, 50px);
-}
-
-.container > div {
-  background-color: white;
+  background-color: #ddd;
 }
 
 .hovering {
-  border: 5px solid orange;
+  background-color: white;
 }
