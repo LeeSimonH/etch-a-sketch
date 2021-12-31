@@ -1,3 +1,5 @@
+https://leesimonh.github.io/etch-a-sketch/
+
 This page features an interactive grid that mimics an etch-a-sketch. It responds to the mouse as if it were a pencil, allowing the user to "fill in" cells of the grid by dragging the mouse over them. 
 
 The grid is always 900px x 900px, and the page opens with the default 16x16 cell resolution.
