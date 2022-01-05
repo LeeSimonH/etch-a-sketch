@@ -9,9 +9,28 @@
     <title>Etch-A-Sketch</title>
   </head>
   <body>
-    <div class="buttons">
-      <button class="clear">Clear Canvas</button>
-      <button class="reset">New Canvas</button>
+    <div class="container">
+      <h1 class="title">Etch-a-Sketch</h1>
+      <div class="controls">
+        <div class="color-wrapper">
+          <input type="color" value="#000000" id="color-selector" />
+        </div>
+        <div class="rangeslider">
+          <input
+            type="range"
+            min="16"
+            max="75"
+            value="16"
+            class="slider"
+            id="sliderRange"
+          />
+          <span id="resolution">16 x 16</span>
+        </div>
+
+        <div class="buttons">
+          <button class="clear">CLEAR</button>
+        </div>
+      </div>
     </div>
   </body>
 </html>

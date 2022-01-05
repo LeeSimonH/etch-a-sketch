@@ -1,64 +1,60 @@
 function addBoxes (dim) {
     let numBoxes = dim ** 2;
-    const container = document.querySelector('.container');
+    const drawBoard = document.querySelector('.drawBoard');
     for (i=0; i<numBoxes; i++) {
         const box = document.createElement('div');
         box.classList.add('box');
         box.style.backgroundColor = 'white';
-        container.appendChild(box);
+        drawBoard.appendChild(box);
     }
 }
 
 function createGrid(dim) {
-    const container = document.createElement('div');
-    container.classList.add('container');
-    const body = document.querySelector('body');
-    body.appendChild(container);
+    const drawBoard = document.createElement('div');
+    drawBoard.classList.add('drawBoard');
+    const container = document.querySelector('.container');
+    container.appendChild(drawBoard);
 
-    container.removeAttribute('grid-template-columns');
-    container.removeAttribute('grid-template-rows');
+    drawBoard.removeAttribute('grid-template-columns');
+    drawBoard.removeAttribute('grid-template-rows');
 
-    let boxDim = 900/dim;
-    container.style.cssText = `
-    align-self:center;
-    display:grid;
+    let boxDim = 750/dim;
+    drawBoard.style.cssText = `
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
+    align-self:start;
+    display: grid;
     grid-template-columns: repeat(${ dim }, ${ boxDim }px);
     grid-template-rows: repeat(${ dim }, ${ boxDim }px);
+    border-top: 7px solid rgb(230, 230, 230);
+    border-left: 7px solid rgb(230, 230, 230);
     `;
 
     addBoxes(dim);
 }
 
-function addBoxHover() {
+function addBoxHover(color='black') {
     const boxes = document.querySelectorAll('.box');
     boxes.forEach((box) => { // hovering listeners
         box.addEventListener('mouseover', (e) => {
-            box.style.background='black';
-            // box.style.border='1px solid #ddd';
+            box.style.background = `${color}`;
         });
     })
 }
 
 function zeroGrid() {
-    const container = document.querySelector('.container');
-    while (container.firstChild) {
-        container.removeChild(container.firstChild);
+    const drawBoard = document.querySelector('.drawBoard');
+    while (drawBoard.firstChild) {
+        drawBoard.removeChild(drawBoard.firstChild);
     }
-    const body = document.querySelector('body');
-    body.removeChild(container);
+    const container = document.querySelector('.container');
+    container.removeChild(drawBoard);
 }
 
-function customGrid() {
-    let userDims = prompt("What dimensions you want bro? ");
-    userDims = parseInt(userDims);
-    console.log(userDims);
-    if (isNaN(userDims)) {
-        let userDims = prompt("Please enter a valid number. ");
-    } else {
-        zeroGrid();
-        createGrid(userDims);
-        addBoxHover();
-    }
+function customGrid(userDims,color) {
+    zeroGrid();
+    createGrid(userDims);
+    addBoxHover(color);
 }
 
 function clearBoxes() {
@@ -68,35 +64,32 @@ function clearBoxes() {
     });
 }
 
-function addButtonHover() {
-    const buttons = document.querySelectorAll('button');
-    console.log(buttons);
-    buttons.forEach((button) => {
-        button.addEventListener('mouseover', (e) => {
-            e.target.classList.toggle('hovering');
-        });
-        button.addEventListener('mouseout', (e) => {
-            e.target.classList.toggle('hovering');
-        })
-    })
-}
-
-function initializeResetButton() {
-    const resetButton = document.querySelector('.reset');
-    resetButton.addEventListener('click', () => {customGrid()});
-}
-
 function initializeClearButton() {
     const clearButton = document.querySelector('.clear');
-    clearButton.addEventListener('click', () => {clearBoxes()});
+    clearButton.addEventListener('click', () => clearBoxes());
 }
 
 function initialize() {
     createGrid(16);
-    addBoxHover();
+    addBoxHover('black');
     initializeClearButton();
-    initializeResetButton();
-    addButtonHover();
 }
 
 window.onload = initialize();
+
+let colorInput = document.querySelector('#color-selector');
+let color = colorInput.value;
+colorInput.addEventListener('input', () => {
+    color = colorInput.value;
+    addBoxHover(color);
+})
+
+var rangeslider = document.getElementById("sliderRange");
+let resolution = document.getElementById("resolution");
+resolution.innerHTML = `${rangeslider.value} x ${rangeslider.value}`;
+
+rangeslider.oninput = function() {
+  resolution.innerHTML = `${this.value} x ${this.value}`;
+  rangeslider.addEventListener('mouseup', () => customGrid(this.value, color))
+}
+
